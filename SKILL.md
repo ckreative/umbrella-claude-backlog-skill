@@ -9,15 +9,10 @@ Use this skill when operating the shared engineering backlog for the Umbrella pr
 
 ## Quick Start
 
-All scripts run from the Umbrella repo root. Use relative paths.
-
-Core commands:
+Run SQL queries via:
 
 ```bash
-bash scripts/db/migrate.sh          # Run all migrations
-bash scripts/db/test.sh             # Run verification tests
-bash scripts/db/psql.sh             # Open interactive SQL session
-bash scripts/db/import_wave2_spec.sh # Import Wave 2 roadmap spec
+bash scripts/db/psql.sh
 ```
 
 Read [references/backlog-surface.md](references/backlog-surface.md) for the full stable SQL interface, tag taxonomy, and common query patterns.
@@ -129,6 +124,5 @@ ORDER BY ticket_key;
 ## Guidance
 
 - Preserve external ticket keys when importing a structured spec if they are already meaningful.
-- Prefer stable repo scripts and SQL functions over ad hoc schema edits.
+- Use the stable SQL functions (not raw INSERT/UPDATE) to modify data.
 - Keep the backlog easy to query: one clear epic, feature-sized tickets, explicit tags, and current status.
-- Always run `bash scripts/db/test.sh` after making schema changes or imports.

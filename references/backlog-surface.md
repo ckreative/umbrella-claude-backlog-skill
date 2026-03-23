@@ -4,10 +4,6 @@ Use this reference when operating the Umbrella backlog through the `umbrella-bac
 
 ## Repo
 
-- Root: Umbrella repo root (run all scripts from there)
-- Migrations: `bash scripts/db/migrate.sh`
-- Import script: `bash scripts/db/import_wave2_spec.sh`
-- Validation: `bash scripts/db/test.sh`
 - Direct SQL: `bash scripts/db/psql.sh`
 
 ## Stable Write Surface

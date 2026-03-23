@@ -11,7 +11,7 @@ cp .env.example .env   # fill in DATABASE_URL + Supabase keys (get from your tea
 claude
 ```
 
-The database is already migrated and populated on the hosted Supabase instance. You just need credentials.
+The database is already migrated and populated. You just need credentials.
 
 ## What It Does
 
@@ -36,15 +36,6 @@ Gives Claude Code full knowledge of the Umbrella backlog system:
 
 - `psql` — [install guide](https://www.postgresql.org/download/)
 - Database credentials (ask your team lead for the `.env` values)
-
-## Scripts
-
-| Command | Purpose |
-|---------|---------|
-| `bash scripts/db/psql.sh` | Interactive SQL session |
-| `bash scripts/db/migrate.sh` | Run SQL migrations (admin only) |
-| `bash scripts/db/test.sh` | Verify schema and functions (admin only) |
-| `bash scripts/db/import_wave2_spec.sh` | Import Wave 2 roadmap spec (admin only) |
 
 ## Also Available
 
