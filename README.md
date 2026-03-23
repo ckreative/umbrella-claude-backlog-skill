@@ -1,23 +1,24 @@
 # Umbrella Claude Code Backlog Skill
 
-Claude Code skill for managing the [Umbrella](https://github.com/ckreative/umbrella) engineering backlog.
+Self-contained Claude Code skill for managing the Umbrella engineering backlog on Supabase Postgres.
 
-This skill teaches Claude Code how to operate the Umbrella backlog — it references scripts and SQL functions that live in the main [Umbrella repo](https://github.com/ckreative/umbrella). You must have the Umbrella repo cloned and set up before using this skill.
-
-## Install
-
-The Umbrella repo already includes this skill at `.claude/skills/umbrella-backlog/`. If you've cloned the Umbrella repo, **you already have it** — no extra install needed.
-
-If for some reason you need to install it manually:
+## Setup
 
 ```bash
-cd /path/to/umbrella
-mkdir -p .claude/skills/umbrella-backlog/references
-curl -sL https://raw.githubusercontent.com/ckreative/umbrella-claude-backlog-skill/main/SKILL.md \
-  -o .claude/skills/umbrella-backlog/SKILL.md
-curl -sL https://raw.githubusercontent.com/ckreative/umbrella-claude-backlog-skill/main/references/backlog-surface.md \
-  -o .claude/skills/umbrella-backlog/references/backlog-surface.md
+git clone https://github.com/ckreative/umbrella-claude-backlog-skill.git
+cd umbrella-claude-backlog-skill
+cp .env.example .env   # fill in DATABASE_URL + Supabase keys
+bash scripts/db/migrate.sh
+bash scripts/db/test.sh
 ```
+
+Then start Claude Code:
+
+```bash
+claude
+```
+
+Claude Code reads `SKILL.md` and the `references/` directory automatically.
 
 ## What It Does
 
@@ -27,8 +28,6 @@ Gives Claude Code full knowledge of the Umbrella backlog system:
 - **Read operations** — query the backlog, sync views, blocked tickets, workload summaries
 - **Tag taxonomy** — platform tags (mobile, desktop, ai) and domain tags (navigation, workspaces, etc.)
 - **Team workflows** — intake roadmap work, run product-engineering sync, slice by tags
-
-The skill references shell scripts (`scripts/db/psql.sh`, `scripts/db/migrate.sh`, etc.) and SQL functions that live in the Umbrella repo — not in this skill repo.
 
 ## What You Can Ask
 
@@ -40,11 +39,40 @@ The skill references shell scripts (`scripts/db/psql.sh`, `scripts/db/migrate.sh
 - "Assign ticket CS-01 to alex"
 - "What did alex work on last week?"
 
-## Requirements
+## Scripts
 
-- The [Umbrella](https://github.com/ckreative/umbrella) repo cloned and set up (migrations run, `.env` configured with `DATABASE_URL`)
-- `psql` installed
-- Claude Code
+| Command | Purpose |
+|---------|---------|
+| `bash scripts/db/migrate.sh` | Run SQL migrations |
+| `bash scripts/db/test.sh` | Verify schema and functions |
+| `bash scripts/db/psql.sh` | Interactive SQL session |
+| `bash scripts/db/import_wave2_spec.sh` | Import Wave 2 roadmap spec |
+
+## Prerequisites
+
+- `psql` — [install guide](https://www.postgresql.org/download/)
+- Database credentials (ask your team lead for the `.env` values)
+
+## Project Structure
+
+```
+umbrella-claude-backlog-skill/
+├── SKILL.md                          # Claude Code skill definition
+├── references/
+│   └── backlog-surface.md            # SQL reference
+├── scripts/db/                       # Database operations
+│   ├── common.sh                     # Shared helper (loads .env)
+│   ├── migrate.sh                    # Run migrations
+│   ├── psql.sh                       # Interactive SQL
+│   ├── test.sh                       # Verify schema
+│   └── import_wave2_spec.sh          # Import roadmap spec
+├── sql/
+│   ├── bootstrap/                    # Schema migrations table
+│   ├── migrations/                   # Ordered SQL migrations
+│   ├── imports/                      # Roadmap spec imports
+│   └── tests/                        # Verification queries
+└── .env.example                      # Environment template
+```
 
 ## Also Available
 
